@@ -1,14 +1,86 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투자 성향 분석</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+    <div class="container">
+        <h1>투자 성향 분석 설문</h1>
+        <form id="survey-form">
+            <div class="form-group">
+                <label for="age">1. 연령대가 어떻게 되십니까?</label>
+                <select id="age" name="age">
+                    <option value="20s">20대</option>
+                    <option value="30s">30대</option>
+                    <option value="40s">40대</option>
+                    <option value="50s">50대 이상</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="investment-goal">2. 투자 목표는 무엇입니까?</label>
+                <select id="investment-goal" name="investment-goal">
+                    <option value="retirement">은퇴 자금 마련</option>
+                    <option value="housing">주택 자금 마련</option>
+                    <option value="education">자녀 교육 자금 마련</option>
+                    <option value="other">기타</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="investment-horizon">3. 예상 투자 기간은 어떻게 되십니까?</label>
+                <select id="investment-horizon" name="investment-horizon">
+                    <option value="short-term">1-3년 (단기)</option>
+                    <option value="mid-term">3-5년 (중기)</option>
+                    <option value="long-term">5년 이상 (장기)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="investment-knowledge">4. 자신의 투자 지식 수준은 어느 정도라고 생각하십니까?</label>
+                <select id="investment-knowledge" name="investment-knowledge">
+                    <option value="beginner">초보</option>
+                    <option value="intermediate">중급</option>
+                    <option value="advanced">고급</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>5. 투자 원금에 20%의 손실이 발생했다면 어떻게 대응하시겠습니까?</label>
+                <input type="radio" name="risk-tolerance-1" value="sell"> 전량 매도<br>
+                <input type="radio" name="risk-tolerance-1" value="hold"> 관망<br>
+                <input type="radio" name="risk-tolerance-1" value="buy"> 추가 매수<br>
+            </div>
+
+            <div class="form-group">
+                <label>6. 고위험 고수익 상품에 어느 정도의 비중을 투자하고 싶으십니까?</label>
+                <input type="radio" name="risk-tolerance-2" value="low"> 10% 미만<br>
+                <input type="radio" name="risk-tolerance-2" value="medium"> 10-30%<br>
+                <input type="radio" name="risk-tolerance-2" value="high"> 30% 이상<br>
+            </div>
+            
+            <div class="form-group">
+                <label for="investment-style">7. 선호하는 투자 스타일은 무엇입니까?</label>
+                <select id="investment-style" name="investment-style">
+                    <option value="conservative">안정형 (원금 보장 선호)</option>
+                    <option value="moderate">중립형 (안정성과 수익성 균형)</option>
+                    <option value="aggressive">공격형 (고위험 고수익 선호)</option>
+                </select>
+            </div>
+
+            <button type="submit">결과 분석</button>
+        </form>
+
+        <div id="result-container" style="display: none;">
+            <h2>투자 성향 분석 결과</h2>
+            <div id="analysis-result"></div>
+            <h3>추천 포트폴리오</h3>
+            <div id="recommendation"></div>
+        </div>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
