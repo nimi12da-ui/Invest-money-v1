@@ -40,7 +40,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.quiz-card:hover, .result-card:hover {
+.quiz-card:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -101,7 +101,7 @@ body {
 }
 
 /* 결과 카드 스타일 */
-.result-card h2 {
+.result-card h2, #result-content h3 {
     color: #1a73e8;
     text-align: center;
     font-size: 1.8em;
@@ -109,26 +109,25 @@ body {
 }
 
 #result-content h3 {
-    color: #202124;
     border-bottom: 2px solid #1a73e8;
     padding-bottom: 5px;
     margin-top: 25px;
+    text-align: left;
+    font-size: 1.5em;
 }
+
 
 #result-content p {
     margin-bottom: 15px;
 }
 
 #result-content ul {
-    list-style-type: none;
-    padding: 0;
+    list-style-type: "\2714\00a0"; /* 체크마크 */
+    padding-left: 20px;
 }
 
 #result-content li {
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 8px;
+    padding: 5px 0;
 }
 
 .profile-badge {
@@ -143,6 +142,40 @@ body {
 .profile-conservative { background-color: #34a853; } /* 녹색 */
 .profile-balanced { background-color: #fbbc05; } /* 노란색 */
 .profile-aggressive { background-color: #ea4335; } /* 빨간색 */
+
+/* 최고의 투자 전략 카드 */
+.best-rec-card {
+    background-color: #e8f0fe;
+    border: 2px solid #1a73e8;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.best-rec-card h4 {
+    margin-top: 0;
+    font-size: 1.3em;
+    color: #1967d2;
+}
+
+.best-rec-card .rec-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #1967d2;
+    margin-bottom: 10px;
+}
+
+.best-rec-card .rec-reason {
+    font-size: 1em;
+}
+
+.disclaimer {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 20px;
+    text-align: center;
+}
 
 
 /* 반응형 디자인 */

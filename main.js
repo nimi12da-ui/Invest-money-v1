@@ -4,9 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultContent = document.getElementById('result-content');
 
     quizForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
+        event.preventDefault();
 
-        // 모든 질문에 답변했는지 확인
         const formData = new FormData(quizForm);
         let score = 0;
         let answeredQuestions = 0;
@@ -19,66 +18,77 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 모든 질문에 답하지 않은 경우 경고
         if (answeredQuestions < 5) {
             alert('모든 질문에 답변해주세요!');
             return;
         }
 
-        // 투자 성향 분석
         let profile = '';
         let description = '';
-        let recommendations = [];
+        let bestRecommendation = { title: '', reason: '' };
+        let otherOptions = [];
         let profileClass = '';
 
         if (score <= 30) {
             profile = '보수적 (Conservative)';
             profileClass = 'profile-conservative';
-            description = '안정성을 최우선으로 생각하는 투자자입니다. 원금 손실의 위험을 최소화하고, 예적금보다 약간 높은 수준의 수익률에 만족하는 경향이 있습니다. 시장 변동성에 민감하게 반응할 수 있으며, 장기적인 관점에서 꾸준한 자산 증식을 목표로 합니다.';
-            recommendations = [
-                '대형 우량주 (예: 삼성전자, SK하이닉스)',
-                '정부 또는 우량 회사 발행 채권',
-                '채권형 ETF 또는 혼합형 펀드',
-                '고배당주'
+            description = '안정성을 최우선으로 생각하는 투자자입니다. 원금 손실의 위험을 최소화하고, 예적금보다 약간 높은 수준의 수익률에 만족하는 경향이 있습니다.';
+            bestRecommendation = {
+                title: '국채 또는 최상위 신용등급 회사채',
+                reason: '가장 낮은 위험도를 가진 자산으로, 국가나 신용도가 매우 높은 기업이 발행하여 원금과 이자의 안정성이 보장됩니다. 시장 변동성 속에서 자산을 안전하게 지키는 최고의 선택입니다.'
+            };
+            otherOptions = [
+                '안정적인 고배당주 (예: 금융주, 통신주)',
+                '금/은 등 귀금속 (전통적인 안전 자산)',
+                '부동산 리츠(REITs) 중 안정적인 임대 수익형'
             ];
         } else if (score <= 70) {
             profile = '균형적 (Balanced)';
             profileClass = 'profile-balanced';
-            description = '안정성과 수익성의 균형을 추구하는 투자자입니다. 어느 정도의 위험을 감수하여 은행 이자 이상의 수익을 기대하지만, 공격적인 투자에는 신중한 태도를 보입니다. 분산 투자를 통해 위험을 관리하고, 장기적인 성장을 목표로 합니다.';
-            recommendations = [
-                '시장 지수 추종 ETF (예: KODEX 200, TIGER 미국 S&P500)',
-                '성장주와 가치주의 혼합 포트폴리오',
-                '글로벌 리츠(REITs) ETF',
-                '우량 기술주 (예: 네이버, 카카오)'
+            description = '안정성과 수익성의 균형을 추구하는 투자자입니다. 어느 정도의 위험을 감수하여 은행 이자 이상의 수익을 기대하지만, 공격적인 투자에는 신중한 태도를 보입니다.';
+            bestRecommendation = {
+                title: '주요 시장 지수 추종 ETF (S&P 500, KOSPI 200 등)',
+                reason: '단 하나의 종목으로 시장 전체에 분산 투자하는 효과를 누릴 수 있습니다. 안정적인 장기 성장과 위험 관리를 동시에 추구하는 가장 합리적인 방법입니다.'
+            };
+            otherOptions = [
+                '글로벌 우량주와 채권 혼합 포트폴리오',
+                '안정적 수익의 상업용 부동산',
+                '이더리움 (상대적으로 안정성이 검증된 암호화폐)'
             ];
         } else {
             profile = '공격적 (Aggressive)';
             profileClass = 'profile-aggressive';
-            description = '높은 수익률을 위해 높은 위험을 감수할 준비가 된 투자자입니다. 단기적인 시장 변동성을 기회로 활용할 줄 알며, 자산의 큰 폭 성장을 목표로 합니다. 신기술, 신흥 시장 등 성장 잠재력이 큰 분야에 대한 관심이 많습니다.';
-            recommendations = [
-                '고성장 기술주 (예: 2차 전지, AI 관련주)',
-                '나스닥 100 지수 추종 ETF (예: QQQ)',
-                '신흥국 시장 투자 ETF',
-                '성장 가능성이 높은 중소형주 또는 스타트업'
+            description = '높은 수익률을 위해 높은 위험을 감수할 준비가 된 투자자입니다. 단기적인 시장 변동성을 기회로 활용하며, 자산의 큰 폭 성장을 목표로 합니다.';
+            bestRecommendation = {
+                title: '나스닥 100 지수 추종 ETF (기술주 중심)',
+                reason: '글로벌 혁신을 주도하는 기술 기업들에 집중 투자하여, 시장 평균을 뛰어넘는 폭발적인 성장을 기대할 수 있는 가장 효과적인 수단입니다.'
+            };
+            otherOptions = [
+                '유망 섹터의 성장주 (AI, 바이오, 신재생에너지)',
+                '비트코인 (고위험 고수익 대표 암호화폐)',
+                '개발도상국 또는 신흥시장 주식형 펀드'
             ];
         }
 
-        // 결과 HTML 생성
         let resultHTML = `
             <h3>당신의 투자 성향: <span class="profile-badge ${profileClass}">${profile}</span></h3>
             <p>${description}</p>
-            <h3>추천 포트폴리오 예시</h3>
+            
+            <div class="best-rec-card">
+                <h4>⭐ 당신을 위한 최고의 투자 전략</h4>
+                <p class="rec-title">${bestRecommendation.title}</p>
+                <p class="rec-reason"><b>이유:</b> ${bestRecommendation.reason}</p>
+            </div>
+
+            <h3>추가적으로 고려할 수 있는 자산군</h3>
             <ul>
-                ${recommendations.map(item => `<li>${item}</li>`).join('')}
+                ${otherOptions.map(item => `<li>${item}</li>`).join('')}
             </ul>
-            <p style="font-size: 0.9em; color: #888; margin-top: 20px;">※ 본 결과는 간단한 설문을 바탕으로 한 참고 자료이며, 실제 투자 결정은 전문가와 상담 후 신중하게 내리셔야 합니다.</p>
+            <p class="disclaimer">※ 본 결과는 참고 자료이며, 실제 투자 결정은 전문가와 상담 후 신중하게 내리셔야 합니다.</p>
         `;
 
-        // 결과 표시
         resultContent.innerHTML = resultHTML;
         resultSection.style.display = 'block';
-
-        // 결과 섹션으로 부드럽게 스크롤
         resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 });
