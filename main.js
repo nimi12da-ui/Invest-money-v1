@@ -1,100 +1,84 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const surveyForm = document.getElementById('survey-form');
-    const resultContainer = document.getElementById('result-container');
-    const analysisResult = document.getElementById('analysis-result');
-    const recommendation = document.getElementById('recommendation');
+    const quizForm = document.getElementById('quiz-form');
+    const resultSection = document.getElementById('result-section');
+    const resultContent = document.getElementById('result-content');
 
-    surveyForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    quizForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // 폼의 기본 제출 동작을 막습니다.
 
-        // Get form values
-        const age = document.getElementById('age').value;
-        const investmentGoal = document.getElementById('investment-goal').value;
-        const investmentHorizon = document.getElementById('investment-horizon').value;
-        const investmentKnowledge = document.getElementById('investment-knowledge').value;
-        const riskTolerance1 = document.querySelector('input[name="risk-tolerance-1"]:checked').value;
-        const riskTolerance2 = document.querySelector('input[name="risk-tolerance-2"]:checked').value;
-        const investmentStyle = document.getElementById('investment-style').value;
-
-        // --- Investment Propensity Analysis ---
+        // 모든 질문에 답변했는지 확인
+        const formData = new FormData(quizForm);
         let score = 0;
+        let answeredQuestions = 0;
 
-        // Age
-        if (age === '20s' || age === '30s') score += 10;
-        else if (age === '40s') score += 5;
-
-        // Investment Horizon
-        if (investmentHorizon === 'long-term') score += 20;
-        else if (investmentHorizon === 'mid-term') score += 10;
-
-        // Investment Knowledge
-        if (investmentKnowledge === 'advanced') score += 15;
-        else if (investmentKnowledge === 'intermediate') score += 10;
-
-        // Risk Tolerance 1
-        if (riskTolerance1 === 'buy') score += 25;
-        else if (riskTolerance1 === 'hold') score += 15;
-        else if (riskTolerance1 === 'sell') score -= 10; // Penalty for selling
-
-        // Risk Tolerance 2
-        if (riskTolerance2 === 'high') score += 20;
-        else if (riskTolerance2 === 'medium') score += 10;
-
-        // Investment Style
-        if (investmentStyle === 'aggressive') score += 10;
-        else if (investmentStyle === 'moderate') score += 5;
-
-        // --- Determine Investment Propensity and Recommendations ---
-        let analysis = '';
-        let portfolio = '';
-
-        if (score >= 70) {
-            analysis = `
-                <p><strong>투자 성향:</strong> 공격 투자형</p>
-                <p>총점: ${score}점</p>
-                <p>귀하는 높은 수준의 위험을 감수하고서라도 높은 수익을 추구하는 <strong>공격 투자형</strong> 투자자입니다. 시장 변동성에 대한 이해도가 높고, 손실 발생 시에도 추가 매수를 고려할 만큼 대담한 투자 성향을 보입니다. 장기적인 관점에서 자산 증대를 목표로 하는 경향이 있습니다.</p>
-            `;
-            portfolio = `
-                <ul>
-                    <li><strong>성장주 (60%):</strong> 기술주, 바이오주 등 고성장 예상 종목</li>
-                    <li><strong>가치주 (20%):</strong> 저평가된 우량 기업 주식</li>
-                    <li><strong>신흥국 주식 (15%):</strong> 높은 성장 잠재력을 지닌 신흥 시장 투자</li>
-                    <li><strong>현금 (5%):</strong> 유동성 확보</li>
-                </ul>
-            `;
-        } else if (score >= 40) {
-            analysis = `
-                <p><strong>투자 성향:</strong> 중립 투자형</p>
-                <p>총점: ${score}점</p>
-                <p>귀하는 안정성과 수익성의 균형을 추구하는 <strong>중립 투자형</strong> 투자자입니다. 어느 정도의 위험은 감수하지만, 원금 손실 가능성에는 신중한 태도를 보입니다. 중장기적인 관점에서 꾸준한 자산 증식을 목표로 합니다.</p>
-            `;
-            portfolio = `
-                <ul>
-                    <li><strong>가치주 (40%):</strong> 안정적인 우량 기업 주식</li>
-                    <li><strong>배당주 (30%):</strong> 꾸준한 현금 흐름을 제공하는 배당주</li>
-                    <li><strong>채권 (20%):</strong> 안정적인 국공채 또는 우량 회사채</li>
-                    <li><strong>현금 (10%):</strong> 유동성 및 기회비용 확보</li>
-                </ul>
-            `;
-        } else {
-            analysis = `
-                <p><strong>투자 성향:</strong> 안정 추구형</p>
-                <p>총점: ${score}점</p>
-                <p>귀하는 원금 보장을 최우선으로 생각하는 <strong>안정 추구형</strong> 투자자입니다. 시장 변동성에 민감하며, 손실 회피 성향이 강합니다. 단기적인 투자보다는 장기적인 안정성을 선호하는 경향이 있습니다.</p>
-            `;
-            portfolio = `
-                <ul>
-                    <li><strong>국공채 (50%):</strong> 정부가 보증하는 가장 안전한 자산</li>
-                    <li><strong>우량 회사채 (30%):</strong> 신용도가 높은 기업의 채권</li>
-                    <li><strong>예금 (20%):</strong> 원금 보장 및 유동성 확보</li>
-                </ul>
-            `;
+        for (let i = 1; i <= 5; i++) {
+            const value = formData.get(`q${i}`);
+            if (value) {
+                score += parseInt(value, 10);
+                answeredQuestions++;
+            }
         }
 
-        // Display results
-        analysisResult.innerHTML = analysis;
-        recommendation.innerHTML = portfolio;
-        resultContainer.style.display = 'block';
-        resultContainer.scrollIntoView({ behavior: 'smooth' });
+        // 모든 질문에 답하지 않은 경우 경고
+        if (answeredQuestions < 5) {
+            alert('모든 질문에 답변해주세요!');
+            return;
+        }
+
+        // 투자 성향 분석
+        let profile = '';
+        let description = '';
+        let recommendations = [];
+        let profileClass = '';
+
+        if (score <= 30) {
+            profile = '보수적 (Conservative)';
+            profileClass = 'profile-conservative';
+            description = '안정성을 최우선으로 생각하는 투자자입니다. 원금 손실의 위험을 최소화하고, 예적금보다 약간 높은 수준의 수익률에 만족하는 경향이 있습니다. 시장 변동성에 민감하게 반응할 수 있으며, 장기적인 관점에서 꾸준한 자산 증식을 목표로 합니다.';
+            recommendations = [
+                '대형 우량주 (예: 삼성전자, SK하이닉스)',
+                '정부 또는 우량 회사 발행 채권',
+                '채권형 ETF 또는 혼합형 펀드',
+                '고배당주'
+            ];
+        } else if (score <= 70) {
+            profile = '균형적 (Balanced)';
+            profileClass = 'profile-balanced';
+            description = '안정성과 수익성의 균형을 추구하는 투자자입니다. 어느 정도의 위험을 감수하여 은행 이자 이상의 수익을 기대하지만, 공격적인 투자에는 신중한 태도를 보입니다. 분산 투자를 통해 위험을 관리하고, 장기적인 성장을 목표로 합니다.';
+            recommendations = [
+                '시장 지수 추종 ETF (예: KODEX 200, TIGER 미국 S&P500)',
+                '성장주와 가치주의 혼합 포트폴리오',
+                '글로벌 리츠(REITs) ETF',
+                '우량 기술주 (예: 네이버, 카카오)'
+            ];
+        } else {
+            profile = '공격적 (Aggressive)';
+            profileClass = 'profile-aggressive';
+            description = '높은 수익률을 위해 높은 위험을 감수할 준비가 된 투자자입니다. 단기적인 시장 변동성을 기회로 활용할 줄 알며, 자산의 큰 폭 성장을 목표로 합니다. 신기술, 신흥 시장 등 성장 잠재력이 큰 분야에 대한 관심이 많습니다.';
+            recommendations = [
+                '고성장 기술주 (예: 2차 전지, AI 관련주)',
+                '나스닥 100 지수 추종 ETF (예: QQQ)',
+                '신흥국 시장 투자 ETF',
+                '성장 가능성이 높은 중소형주 또는 스타트업'
+            ];
+        }
+
+        // 결과 HTML 생성
+        let resultHTML = `
+            <h3>당신의 투자 성향: <span class="profile-badge ${profileClass}">${profile}</span></h3>
+            <p>${description}</p>
+            <h3>추천 포트폴리오 예시</h3>
+            <ul>
+                ${recommendations.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+            <p style="font-size: 0.9em; color: #888; margin-top: 20px;">※ 본 결과는 간단한 설문을 바탕으로 한 참고 자료이며, 실제 투자 결정은 전문가와 상담 후 신중하게 내리셔야 합니다.</p>
+        `;
+
+        // 결과 표시
+        resultContent.innerHTML = resultHTML;
+        resultSection.style.display = 'block';
+
+        // 결과 섹션으로 부드럽게 스크롤
+        resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 });

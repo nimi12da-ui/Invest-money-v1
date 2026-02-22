@@ -1,11 +1,60 @@
-# Investment Propensity Analyzer
+# Blueprint: 투자 성향 분석기
 
-## Overview
+## 개요
 
-This application analyzes a user's investment propensity through a survey, provides a detailed analysis of their investment style, and recommends a suitable stock portfolio.
+이 애플리케이션은 사용자가 자신의 투자 성향을 파악하고, 그에 맞는 투자 전략과 종목에 대한 아이디어를 얻을 수 있도록 돕는 대화형 웹 애플리케이션입니다. 사용자는 몇 가지 간단한 질문에 답하는 것만으로 자신의 투자 프로필을 진단받고, 맞춤형 투자 정보를 제공받을 수 있습니다.
 
-## Current Plan
+## 기능 및 디자인
 
-1.  **Create Survey Form (`index.html`):** Design a comprehensive survey to gauge the user's risk tolerance, investment horizon, financial goals, and investment knowledge.
-2.  **Style the Application (`style.css`):** Apply modern and clean styling to the survey and results to ensure a good user experience.
-3.  **Implement Analysis Logic (`main.js`):** Develop the JavaScript logic to process the survey, calculate an investment score, display a detailed analysis, and provide stock recommendations based on the user's profile.
+### 1. UI/UX (사용자 인터페이스 및 경험)
+
+- **메인 레이아웃:**
+    - 상단: 애플리케이션의 제목과 간단한 소개가 포함된 히어로 섹션.
+    - 중단: 사용자가 답변할 설문조사 질문들이 카드 형태로 표시됩니다.
+    - 하단: 분석 결과가 표시될 섹션 (초기에는 숨김 처리).
+- **디자인 컨셉:**
+    - **모던 & 클린:** 현대적인 디자인 가이드라인을 준수하여 깨끗하고 직관적인 인터페이스를 제공합니다.
+    - **카드 UI:** 각 질문과 결과 섹션을 명확히 구분하기 위해 그림자 효과가 있는 카드 UI를 사용합니다.
+    - **색상 팔레트:** 신뢰감을 주는 파란색과 녹색 계열을 주 색상으로 사용하고, 활기찬 느낌을 주기 위해 강조 색상을 추가합니다.
+    - **타이포그래피:** 명확한 정보 전달을 위해 가독성 높은 글꼴과 계층 구조가 명확한 텍스트 크기를 사용합니다.
+    - **인터랙티브 요소:** 버튼과 입력 필드에는 호버 및 포커스 효과를 추가하여 사용자와의 상호작용을 높입니다.
+- **반응형 디자인:** 데스크톱, 태블릿, 모바일 등 모든 화면 크기에서 최적의 경험을 제공하도록 설계합니다.
+
+### 2. 핵심 기능
+
+- **투자 성향 설문:**
+    - **질문 내용:**
+        1.  나이대
+        2.  투자 경험
+        3.  단기 시장 하락에 대한 반응
+        4.  투자를 통해 기대하는 수익률
+        5.  원금 손실에 대한 감수 수준
+        6.  주요 투자 목표 (예: 은퇴, 주택 마련 등)
+    - **입력 방식:** 객관식 질문에 대해 라디오 버튼으로 답변을 선택합니다.
+
+- **분석 알고리즘:**
+    - **점수화:** 각 답변 항목에 점수를 부여합니다. (예: 위험 감수성이 높을수록 높은 점수)
+    - **프로파일링:** 계산된 총점을 기준으로 사용자의 투자 성향을 다음 3가지 유형으로 분류합니다.
+        - **보수적 (Conservative):** 0-30점
+        - **균형적 (Balanced):** 31-70점
+        - **공격적 (Aggressive):** 71-100점
+    - **결과 생성:** 분류된 프로필에 따라 맞춤형 설명과 추천 포트폴리오 전략을 생성합니다.
+
+- **결과 표시:**
+    - **투자 성향:** "당신은 [공격적] 투자자입니다." 와 같이 명확하게 결과를 알려줍니다.
+    - **상세 설명:** 해당 투자 성향의 특징과 행동 패턴에 대해 설명합니다.
+    - **추천 종목 예시:**
+        - **보수적:** 대형 우량주 (예: 삼성전자), 채권형 ETF, 배당주
+        - **균형적:** 시장 지수 추종 ETF (예: KODEX 200), 기술주와 가치주의 혼합
+        - **공격적:** 성장주 (예: NAVER, KAKAO), 기술 중심의 ETF, 스타트업/스팩(SPAC)
+
+## 현재 작업 계획
+
+1.  **`blueprint.md` 파일 생성:** 프로젝트의 목표와 계획을 문서화합니다. (완료)
+2.  **`index.html` 구조 설계:** 애플리케이션의 기본 HTML 구조(제목, 설문지 폼, 결과 표시 영역)를 작성합니다.
+3.  **`style.css` 기본 스타일링:** 모던하고 반응형인 디자인을 위한 CSS 스타일(색상, 폰트, 레이아웃)을 적용합니다.
+4.  **`main.js` 핵심 로직 구현:**
+    - 설문 제출(클릭) 이벤트를 감지합니다.
+    - 선택된 답변들을 바탕으로 점수를 계산합니다.
+    - 투자 성향을 분석하고, 그에 맞는 결과(설명, 추천 종목)를 동적으로 생성하여 화면에 표시합니다.
+5.  **파일 연동 및 최종 테스트:** HTML, CSS, JavaScript 파일들을 서로 연결하고, 전체 기능이 원활하게 동작하는지 확인합니다.
